@@ -10,8 +10,24 @@ export type CreateTripInput = Pick<
   "title" | "region" | "country" | "start_date" | "end_date"
 >;
 
+export type UpdateTripInput = Pick<
+  Database["public"]["Tables"]["trips"]["Update"],
+  "title" | "region" | "country" | "start_date" | "end_date"
+>;
+
 export type CreatePlaceInput = Pick<
   Database["public"]["Tables"]["places"]["Insert"],
+  | "name"
+  | "address"
+  | "latitude"
+  | "longitude"
+  | "note"
+  | "country_code"
+  | "country_name"
+>;
+
+export type UpdatePlaceInput = Pick<
+  Database["public"]["Tables"]["places"]["Update"],
   | "name"
   | "address"
   | "latitude"

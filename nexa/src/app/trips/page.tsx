@@ -1,66 +1,48 @@
-import { places, trips } from "@/data/mock-data";
+import { CreateTripForm } from "@/components/trips/create-trip-form";
+import { TripsList } from "@/components/trips/trips-list";
+import { createTripAction } from "@/app/trips/actions";
+import { getCurrentUserTrips } from "@/services/tripService";
 
-export default function TripsPage() {
+export default async function TripsPage() {
+  const trips = await getCurrentUserTrips();
+
   return (
     <div className="space-y-6">
       <section>
         <p className="eyebrow text-accent">Trips</p>
         <h1 className="mt-3 text-4xl font-semibold tracking-tight">
-          Reisen als eigener Bereich vorbereitet
+          Deine Trips
         </h1>
         <p className="mt-3 max-w-2xl text-sm leading-6 text-muted">
-          Diese Route bildet bereits Titel, Zeitraum, Region und die Idee einer
-          chronologischen Route pro Trip ab.
+          Hier siehst du alle Trips des aktuell eingeloggten Users und kannst
+          neue Reisen direkt anlegen.
         </p>
       </section>
 
-      <section className="grid gap-5 lg:grid-cols-2">
-        {trips.map((trip) => {
-          const relatedPlaces = places.filter((place) =>
-            place.tripIds.includes(trip.id),
-          );
+      <section className="grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
+        <article className="rounded-[1.75rem] border border-border bg-white/62 p-6">
+          <p className="eyebrow text-muted">Neuer Trip</p>
+          <h2 className="mt-3 text-2xl font-semibold tracking-tight">
+            Reise anlegen
+          </h2>
+          <p className="mt-3 text-sm leading-6 text-muted">
+            Titel, Region, Land und Zeitraum reichen fuer den ersten Schritt.
+          </p>
 
-          return (
-            <article
-              key={trip.id}
-              className="rounded-[1.75rem] border border-border bg-white/62 p-6"
-            >
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <p className="eyebrow text-accent">{trip.country ?? "Trip"}</p>
-                  <h2 className="mt-2 text-2xl font-semibold tracking-tight">
-                    {trip.title}
-                  </h2>
-                </div>
-                <span className="rounded-full bg-accent-soft px-3 py-1 text-sm font-semibold text-accent">
-                  {relatedPlaces.length} Places
-                </span>
-              </div>
+          <div className="mt-6">
+            <CreateTripForm action={createTripAction} />
+          </div>
+        </article>
 
-              <p className="mt-3 text-sm text-muted">
-                {trip.startDate} - {trip.endDate}
-                {trip.region ? ` • ${trip.region}` : ""}
-              </p>
-              <p className="mt-4 text-sm leading-6 text-muted">{trip.summary}</p>
-
-              <div className="mt-6 rounded-[1.5rem] bg-surface-strong p-4">
-                <p className="eyebrow text-muted">Route Preview</p>
-                <div className="mt-4 flex flex-wrap gap-3">
-                  {relatedPlaces.map((place, index) => (
-                    <div key={place.id} className="flex items-center gap-3">
-                      <div className="rounded-full bg-accent px-3 py-2 text-sm font-semibold text-white">
-                        {place.name}
-                      </div>
-                      {index < relatedPlaces.length - 1 ? (
-                        <div className="h-px w-10 bg-accent/35" />
-                      ) : null}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </article>
-          );
-        })}
+        <section className="space-y-4">
+          <div>
+            <p className="eyebrow text-muted">Trip Liste</p>
+            <h2 className="mt-3 text-2xl font-semibold tracking-tight">
+              Vorhandene Reisen
+            </h2>
+          </div>
+          <TripsList trips={trips} />
+        </section>
       </section>
     </div>
   );

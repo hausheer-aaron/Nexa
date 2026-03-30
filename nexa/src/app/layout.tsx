@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { IBM_Plex_Mono, Manrope } from "next/font/google";
 import { SupabaseAuthProvider } from "@/components/providers/supabase-auth-provider";
 import { AppShell } from "@/components/app/app-shell";
+import "leaflet/dist/leaflet.css";
 import "./globals.css";
 
 const manrope = Manrope({

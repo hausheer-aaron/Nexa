@@ -99,8 +99,28 @@ select {
   gap: 1rem;
 }
 
+.leaflet-container {
+  font-family: var(--font-manrope), sans-serif;
+}
+
+.trip-route-map-frame {
+  height: 420px;
+  width: 100%;
+  border-radius: 1.5rem;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 1rem;
+}
+
 @media (min-width: 960px) {
   .section-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 768px) {
+  .trip-route-map-frame {
+    height: 480px;
   }
 }
