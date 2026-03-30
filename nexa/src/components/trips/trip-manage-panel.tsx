@@ -17,12 +17,20 @@ export function TripManagePanel({ trip }: TripManagePanelProps) {
   const [startDate, setStartDate] = useState(trip.start_date);
   const [endDate, setEndDate] = useState(trip.end_date);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
   function handleSave(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
+    setSuccess(null);
+
+    if (!title.trim() || !startDate || !endDate) {
+      setError("Titel, Startdatum und Enddatum sind erforderlich.");
+      return;
+    }
+
     setIsSaving(true);
 
     startTransition(async () => {
@@ -41,6 +49,7 @@ export function TripManagePanel({ trip }: TripManagePanelProps) {
         return;
       }
 
+      setSuccess("Trip erfolgreich gespeichert.");
       setIsSaving(false);
       router.refresh();
     });
@@ -56,6 +65,7 @@ export function TripManagePanel({ trip }: TripManagePanelProps) {
     }
 
     setError(null);
+    setSuccess(null);
     setIsDeleting(true);
 
     startTransition(async () => {
@@ -138,6 +148,12 @@ export function TripManagePanel({ trip }: TripManagePanelProps) {
             </label>
           </div>
         </div>
+
+        {success ? (
+          <p className="rounded-[1rem] bg-accent-soft px-4 py-3 text-sm text-accent">
+            {success}
+          </p>
+        ) : null}
 
         {error ? (
           <p className="rounded-[1rem] bg-[#f6dfd0] px-4 py-3 text-sm text-[#7a4122]">

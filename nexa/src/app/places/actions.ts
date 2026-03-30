@@ -13,25 +13,34 @@ export async function createPlaceAction(formData: FormData) {
   const country_name = formData.get("country_name")?.toString().trim() ?? "";
 
   if (!name || !latitudeRaw || !longitudeRaw) {
-    throw new Error("Name, latitude and longitude are required.");
+    return { error: "Name, Latitude und Longitude sind erforderlich." };
   }
 
   const latitude = Number(latitudeRaw);
   const longitude = Number(longitudeRaw);
 
   if (Number.isNaN(latitude) || Number.isNaN(longitude)) {
-    throw new Error("Latitude and longitude must be valid numbers.");
+    return { error: "Latitude und Longitude muessen gueltige Zahlen sein." };
   }
 
-  await createPlace({
-    name,
-    address: address || null,
-    latitude,
-    longitude,
-    note: note || null,
-    country_code: country_code || null,
-    country_name: country_name || null,
-  });
+  try {
+    await createPlace({
+      name,
+      address: address || null,
+      latitude,
+      longitude,
+      note: note || null,
+      country_code: country_code || null,
+      country_name: country_name || null,
+    });
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Place konnte nicht gespeichert werden.";
+
+    return { error: message };
+  }
 
   revalidatePath("/places");
+
+  return { success: true };
 }

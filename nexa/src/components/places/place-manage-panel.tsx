@@ -19,12 +19,20 @@ export function PlaceManagePanel({ place }: PlaceManagePanelProps) {
   const [countryCode, setCountryCode] = useState(place.country_code ?? "");
   const [countryName, setCountryName] = useState(place.country_name ?? "");
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
   function handleSave(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
+    setSuccess(null);
+
+    if (!name.trim()) {
+      setError("Name ist erforderlich.");
+      return;
+    }
+
     setIsSaving(true);
 
     startTransition(async () => {
@@ -45,6 +53,7 @@ export function PlaceManagePanel({ place }: PlaceManagePanelProps) {
         return;
       }
 
+      setSuccess("Place erfolgreich gespeichert.");
       setIsSaving(false);
       router.refresh();
     });
@@ -60,6 +69,7 @@ export function PlaceManagePanel({ place }: PlaceManagePanelProps) {
     }
 
     setError(null);
+    setSuccess(null);
     setIsDeleting(true);
 
     startTransition(async () => {
@@ -162,6 +172,12 @@ export function PlaceManagePanel({ place }: PlaceManagePanelProps) {
             />
           </label>
         </div>
+
+        {success ? (
+          <p className="rounded-[1rem] bg-accent-soft px-4 py-3 text-sm text-accent">
+            {success}
+          </p>
+        ) : null}
 
         {error ? (
           <p className="rounded-[1rem] bg-[#f6dfd0] px-4 py-3 text-sm text-[#7a4122]">

@@ -56,6 +56,11 @@ export function PlacesMapShell({ places }: PlacesMapShellProps) {
 
       <div className="rounded-[1.25rem] border border-border bg-white/70 px-4 py-4">
         <CreatePlaceFromMapForm
+          key={
+            selectedPoint
+              ? `${selectedPoint.latitude}-${selectedPoint.longitude}`
+              : "no-selection"
+          }
           selectedPoint={selectedPoint}
           onSaved={() => setSelectedPoint(null)}
         />

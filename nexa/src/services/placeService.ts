@@ -17,6 +17,38 @@ export async function getCurrentUserPlaces(): Promise<Place[]> {
   return data;
 }
 
+export async function getCurrentUserPlaceCount(): Promise<number> {
+  const { supabase, user } = await requireAuthenticatedSupabase();
+
+  const { count, error } = await supabase
+    .from("places")
+    .select("*", { count: "exact", head: true })
+    .eq("user_id", user.id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return count ?? 0;
+}
+
+export async function getCurrentUserRecentPlaces(limit = 4): Promise<Place[]> {
+  const { supabase, user } = await requireAuthenticatedSupabase();
+
+  const { data, error } = await supabase
+    .from("places")
+    .select("*")
+    .eq("user_id", user.id)
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+}
+
 export async function getCurrentUserPlaceById(
   placeId: string,
 ): Promise<Place | null> {

@@ -11,16 +11,25 @@ export async function createTripAction(formData: FormData) {
   const end_date = formData.get("end_date")?.toString() ?? "";
 
   if (!title || !start_date || !end_date) {
-    throw new Error("Title, start date and end date are required.");
+    return { error: "Titel, Startdatum und Enddatum sind erforderlich." };
   }
 
-  await createTrip({
-    title,
-    region: region || null,
-    country: country || null,
-    start_date,
-    end_date,
-  });
+  try {
+    await createTrip({
+      title,
+      region: region || null,
+      country: country || null,
+      start_date,
+      end_date,
+    });
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Trip konnte nicht gespeichert werden.";
+
+    return { error: message };
+  }
 
   revalidatePath("/trips");
+
+  return { success: true };
 }

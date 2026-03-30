@@ -69,6 +69,61 @@ export async function getCurrentUserPlacesForTrip(
   return places;
 }
 
+export async function getCurrentUserTripsForPlaces(
+  placeIds: string[],
+): Promise<Record<string, Trip[]>> {
+  if (placeIds.length === 0) {
+    return {};
+  }
+
+  const { supabase, user } = await requireAuthenticatedSupabase();
+
+  const { data: tripPlaces, error: tripPlacesError } = await supabase
+    .from("trip_places")
+    .select("place_id, trip_id")
+    .in("place_id", placeIds);
+
+  if (tripPlacesError) {
+    throw new Error(tripPlacesError.message);
+  }
+
+  const tripIds = [...new Set(tripPlaces.map((entry) => entry.trip_id))];
+
+  if (tripIds.length === 0) {
+    return {};
+  }
+
+  const { data: trips, error: tripsError } = await supabase
+    .from("trips")
+    .select("*")
+    .eq("user_id", user.id)
+    .in("id", tripIds)
+    .order("start_date", { ascending: true });
+
+  if (tripsError) {
+    throw new Error(tripsError.message);
+  }
+
+  const tripsById = new Map(trips.map((trip) => [trip.id, trip]));
+  const tripsByPlaceId: Record<string, Trip[]> = {};
+
+  for (const entry of tripPlaces) {
+    const trip = tripsById.get(entry.trip_id);
+
+    if (!trip) {
+      continue;
+    }
+
+    if (!tripsByPlaceId[entry.place_id]) {
+      tripsByPlaceId[entry.place_id] = [];
+    }
+
+    tripsByPlaceId[entry.place_id].push(trip);
+  }
+
+  return tripsByPlaceId;
+}
+
 export async function assignPlaceToTrip(
   placeId: string,
   tripId: string,

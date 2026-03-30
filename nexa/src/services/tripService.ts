@@ -17,6 +17,38 @@ export async function getCurrentUserTrips(): Promise<Trip[]> {
   return data;
 }
 
+export async function getCurrentUserTripCount(): Promise<number> {
+  const { supabase, user } = await requireAuthenticatedSupabase();
+
+  const { count, error } = await supabase
+    .from("trips")
+    .select("*", { count: "exact", head: true })
+    .eq("user_id", user.id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return count ?? 0;
+}
+
+export async function getCurrentUserRecentTrips(limit = 3): Promise<Trip[]> {
+  const { supabase, user } = await requireAuthenticatedSupabase();
+
+  const { data, error } = await supabase
+    .from("trips")
+    .select("*")
+    .eq("user_id", user.id)
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+}
+
 export async function getCurrentUserTripById(
   tripId: string,
 ): Promise<Trip | null> {

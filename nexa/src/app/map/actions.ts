@@ -8,6 +8,9 @@ type CreatePlaceFromMapInput = {
   longitude: number;
   name: string;
   note?: string;
+  address?: string;
+  country_code?: string;
+  country_name?: string;
 };
 
 export async function createPlaceFromMapAction(
@@ -15,6 +18,9 @@ export async function createPlaceFromMapAction(
 ) {
   const name = input.name.trim();
   const note = input.note?.trim() ?? "";
+  const address = input.address?.trim() ?? "";
+  const country_code = input.country_code?.trim() ?? "";
+  const country_name = input.country_name?.trim() ?? "";
 
   if (!name) {
     return { error: "Name ist erforderlich." };
@@ -30,9 +36,9 @@ export async function createPlaceFromMapAction(
       note: note || null,
       latitude: input.latitude,
       longitude: input.longitude,
-      address: null,
-      country_code: null,
-      country_name: null,
+      address: address || null,
+      country_code: country_code || null,
+      country_name: country_name || null,
     });
   } catch (error) {
     const message =

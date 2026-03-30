@@ -1,117 +1,87 @@
 import Link from "next/link";
-import { FeatureCard } from "@/components/home/feature-card";
-import { MilestoneList } from "@/components/home/milestone-list";
-import { dashboardStats, places, trips } from "@/data/mock-data";
+import { DashboardStatCard } from "@/components/dashboard/dashboard-stat-card";
+import { RecentPlacesCard } from "@/components/dashboard/recent-places-card";
+import { RecentTripsCard } from "@/components/dashboard/recent-trips-card";
+import {
+  getCurrentUserPlaceCount,
+  getCurrentUserRecentPlaces,
+} from "@/services/placeService";
+import {
+  getCurrentUserRecentTrips,
+  getCurrentUserTripCount,
+} from "@/services/tripService";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [tripCount, placeCount, recentTrips, recentPlaces] = await Promise.all([
+    getCurrentUserTripCount(),
+    getCurrentUserPlaceCount(),
+    getCurrentUserRecentTrips(),
+    getCurrentUserRecentPlaces(),
+  ]);
+
   return (
     <div className="space-y-8">
       <section className="rounded-[2rem] border border-border bg-[linear-gradient(135deg,rgba(31,107,87,0.95),rgba(23,49,43,0.92))] p-6 text-white md:p-8">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
-            <p className="eyebrow text-white/65">Project Foundation</p>
+            <p className="eyebrow text-white/65">Dashboard</p>
             <h1 className="mt-4 text-4xl font-semibold tracking-tight md:text-6xl">
-              Nexa statt Standard-Next-Template.
+              Deine Reisen auf einen Blick.
             </h1>
             <p className="mt-4 max-w-xl text-base leading-7 text-white/78 md:text-lg">
-              Die Grundstruktur ist auf deine App-Idee ausgerichtet: Orte,
-              Trips, Kartenfokus und spaetere Supabase-Anbindung.
+              Das Dashboard zeigt dir echte Daten des aktuell eingeloggten
+              Users: kompakte Kennzahlen, letzte Trips und zuletzt gespeicherte
+              Places.
             </p>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-3">
-            {dashboardStats.map((stat) => (
-              <div
-                key={stat.label}
-                className="rounded-[1.5rem] border border-white/12 bg-white/8 p-4"
-              >
-                <p className="eyebrow text-white/55">{stat.label}</p>
-                <p className="mt-3 text-2xl font-semibold">{stat.value}</p>
-                <p className="mt-1 text-sm text-white/70">{stat.detail}</p>
-              </div>
-            ))}
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="/trips"
+              className="rounded-full border border-white/18 bg-white/8 px-4 py-2 text-sm font-semibold text-white hover:bg-white/14"
+            >
+              Trips verwalten
+            </Link>
+            <Link
+              href="/places"
+              className="rounded-full border border-white/18 bg-white/8 px-4 py-2 text-sm font-semibold text-white hover:bg-white/14"
+            >
+              Places verwalten
+            </Link>
+            <Link
+              href="/map"
+              className="rounded-full border border-white/18 bg-white/8 px-4 py-2 text-sm font-semibold text-white hover:bg-white/14"
+            >
+              Karte oeffnen
+            </Link>
           </div>
         </div>
       </section>
 
-      <section className="section-grid">
-        <FeatureCard
-          title="Map-first Einstieg"
-          description="Eigene Route `/map` als Ausgangspunkt fuer Suche, Pins, GPS und spaeteren Kartenanbieter."
+      <section className="grid gap-4 md:grid-cols-2">
+        <DashboardStatCard
+          label="Trips"
+          value={tripCount}
+          detail={
+            tripCount === 0
+              ? "Noch keine Reisen angelegt."
+              : "Alle Reisen des aktuell eingeloggten Users."
+          }
         />
-        <FeatureCard
-          title="Supabase-ready Datenmodell"
-          description="Trips, Places und Many-to-many-Zuordnung sind bereits in Types und Beispiel-Daten gespiegelt."
-          accent="warm"
+        <DashboardStatCard
+          label="Places"
+          value={placeCount}
+          detail={
+            placeCount === 0
+              ? "Noch keine Orte gespeichert."
+              : "Alle gespeicherten Orte des aktuell eingeloggten Users."
+          }
         />
       </section>
 
-      <section className="grid gap-6 xl:grid-cols-[1.35fr_0.95fr]">
-        <article className="rounded-[1.75rem] border border-border bg-white/62 p-6">
-          <div className="flex items-end justify-between gap-4">
-            <div>
-              <p className="eyebrow text-accent">Current Scope</p>
-              <h2 className="mt-3 text-2xl font-semibold tracking-tight">
-                Erste Domaenen statt UI-Demo
-              </h2>
-            </div>
-            <Link
-              href="/trips"
-              className="rounded-full border border-border px-4 py-2 text-sm font-semibold hover:border-accent/40 hover:bg-white"
-            >
-              Trips ansehen
-            </Link>
-          </div>
-
-          <div className="mt-6 grid gap-4 md:grid-cols-2">
-            <div className="rounded-[1.5rem] bg-surface-strong p-5">
-              <p className="eyebrow text-muted">Trips</p>
-              <div className="mt-4 space-y-4">
-                {trips.map((trip) => (
-                  <div key={trip.id}>
-                    <p className="text-lg font-semibold">{trip.title}</p>
-                    <p className="mt-1 text-sm text-muted">
-                      {trip.startDate} - {trip.endDate}
-                    </p>
-                    <p className="mt-2 text-sm leading-6 text-muted">
-                      {trip.summary}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="rounded-[1.5rem] bg-surface-strong p-5">
-              <p className="eyebrow text-muted">Places</p>
-              <div className="mt-4 space-y-4">
-                {places.map((place) => (
-                  <div key={place.id}>
-                    <p className="text-lg font-semibold">{place.name}</p>
-                    <p className="mt-1 text-sm text-muted">{place.address}</p>
-                    <p className="mt-2 text-sm leading-6 text-muted">
-                      {place.note}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <article className="rounded-[1.75rem] border border-border bg-white/62 p-6">
-          <p className="eyebrow text-accent">Milestones</p>
-          <h2 className="mt-3 text-2xl font-semibold tracking-tight">
-            Sinnvolle naechste Ausbaustufen
-          </h2>
-          <p className="mt-3 max-w-lg text-sm leading-6 text-muted">
-            Noch ohne echte Backend-Anbindung, aber mit einer Struktur, die
-            sich direkt in die Supabase-Tabellen und spaeteren Flows uebertragen
-            laesst.
-          </p>
-          <div className="mt-6">
-            <MilestoneList />
-          </div>
-        </article>
+      <section className="grid gap-6 xl:grid-cols-2">
+        <RecentTripsCard trips={recentTrips} />
+        <RecentPlacesCard places={recentPlaces} />
       </section>
     </div>
   );
