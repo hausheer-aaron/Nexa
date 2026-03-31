@@ -7,9 +7,10 @@ import type { Place } from "@/types/entities";
 
 type PlaceManagePanelProps = {
   place: Place;
+  onSuccess?: () => void;
 };
 
-export function PlaceManagePanel({ place }: PlaceManagePanelProps) {
+export function PlaceManagePanel({ place, onSuccess }: PlaceManagePanelProps) {
   const router = useRouter();
   const [name, setName] = useState(place.name);
   const [address, setAddress] = useState(place.address ?? "");
@@ -55,6 +56,7 @@ export function PlaceManagePanel({ place }: PlaceManagePanelProps) {
 
       setSuccess("Place erfolgreich gespeichert.");
       setIsSaving(false);
+      onSuccess?.();
       router.refresh();
     });
   }

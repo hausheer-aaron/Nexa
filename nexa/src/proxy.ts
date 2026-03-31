@@ -30,16 +30,6 @@ export async function proxy(request: NextRequest) {
     return redirectResponse;
   }
 
-  if (user && pathname === "/account") {
-    const redirectTarget = request.nextUrl.searchParams.get("next") || "/";
-    const redirectUrl = request.nextUrl.clone();
-    redirectUrl.pathname = redirectTarget.startsWith("/") ? redirectTarget : "/";
-    redirectUrl.search = "";
-    const redirectResponse = NextResponse.redirect(redirectUrl);
-    copyCookies(response, redirectResponse);
-    return redirectResponse;
-  }
-
   return response;
 }
 

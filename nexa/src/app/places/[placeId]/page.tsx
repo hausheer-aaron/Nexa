@@ -1,10 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { PlaceDetailActions } from "@/components/places/place-detail-actions";
 import { PlaceDetailCard } from "@/components/places/place-detail-card";
-import { PlaceManagePanel } from "@/components/places/place-manage-panel";
-import { PlaceTripAssignment } from "@/components/places/place-trip-assignment";
+import { PlaceTripList } from "@/components/places/place-trip-list";
 import { getCurrentUserPlaceById } from "@/services/placeService";
-import { getCurrentUserTrips } from "@/services/tripService";
 import { getCurrentUserTripsForPlace } from "@/services/tripPlaceService";
 
 type PlaceDetailPageProps = {
@@ -15,9 +14,8 @@ export default async function PlaceDetailPage({
   params,
 }: PlaceDetailPageProps) {
   const { placeId } = await params;
-  const [place, allTrips, assignedTrips] = await Promise.all([
+  const [place, assignedTrips] = await Promise.all([
     getCurrentUserPlaceById(placeId),
-    getCurrentUserTrips(),
     getCurrentUserTripsForPlace(placeId),
   ]);
 
@@ -37,12 +35,8 @@ export default async function PlaceDetailPage({
       </div>
 
       <PlaceDetailCard place={place} />
-      <PlaceManagePanel place={place} />
-      <PlaceTripAssignment
-        placeId={place.id}
-        allTrips={allTrips}
-        assignedTrips={assignedTrips}
-      />
+      <PlaceDetailActions place={place} />
+      <PlaceTripList trips={assignedTrips} />
     </div>
   );
 }

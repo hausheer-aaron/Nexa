@@ -35,10 +35,7 @@
 
 html {
   min-height: 100%;
-  background:
-    radial-gradient(circle at top left, rgba(217, 137, 82, 0.25), transparent 28%),
-    radial-gradient(circle at top right, rgba(31, 107, 87, 0.14), transparent 32%),
-    linear-gradient(180deg, #f4ede1 0%, #f8f4ed 45%, #efe7da 100%);
+  background: #f4efe7;
 }
 
 body {
