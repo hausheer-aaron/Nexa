@@ -15,6 +15,10 @@ export async function getCurrentAccountOverview(): Promise<AccountOverview | nul
   } = await supabase.auth.getUser();
 
   if (userError) {
+    if (userError.message === "Auth session missing!") {
+      return null;
+    }
+
     throw new Error(userError.message);
   }
 
