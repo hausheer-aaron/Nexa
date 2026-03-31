@@ -1,15 +1,16 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import L from "leaflet";
+import type { Map as MapLibreMapInstance, Marker, Popup } from "maplibre-gl";
+import { MapLibreMap } from "@/components/map/maplibre-map";
 import {
-  CircleMarker,
-  MapContainer,
-  Polyline,
-  Popup,
-  TileLayer,
-  useMap,
-} from "react-leaflet";
+  buildPlacePopupHtml,
+  createMarkerElement,
+  fallbackCenter,
+  fallbackZoom,
+  hasValidCoordinates,
+  singlePlaceZoom,
+} from "@/lib/map/maplibre-utils";
 import type { Place } from "@/types/entities";
 import {
   getStraightLineRouteCoordinates,
@@ -21,53 +22,11 @@ type TripRouteMapProps = {
   places: Place[];
 };
 
-type TripRouteViewportProps = {
-  places: Place[];
-  routeCoordinates: RouteCoordinate[];
-};
-
-const fallbackCenter: [number, number] = [47.3769, 8.5417];
-
-function hasValidCoordinates(place: Place) {
-  return Number.isFinite(place.latitude) && Number.isFinite(place.longitude);
-}
-
-function TripRouteViewport({
-  places,
-  routeCoordinates,
-}: TripRouteViewportProps) {
-  const map = useMap();
-
-  useEffect(() => {
-    const fallbackCoordinates = getStraightLineRouteCoordinates(places).map(
-      ([longitude, latitude]) => [latitude, longitude] as [number, number],
-    );
-
-    const routeBoundsCoordinates =
-      routeCoordinates.length > 0
-        ? routeCoordinates.map(
-            ([longitude, latitude]) => [latitude, longitude] as [number, number],
-          )
-        : fallbackCoordinates;
-
-    if (routeBoundsCoordinates.length === 0) {
-      map.setView(fallbackCenter, 5);
-      return;
-    }
-
-    if (routeBoundsCoordinates.length === 1) {
-      map.setView(routeBoundsCoordinates[0], 12);
-      return;
-    }
-
-    const bounds = L.latLngBounds(routeBoundsCoordinates);
-    map.fitBounds(bounds, { padding: [36, 36] });
-  }, [map, places, routeCoordinates]);
-
-  return null;
-}
+const routeSourceId = "trip-route-source";
+const routeLayerId = "trip-route-line";
 
 export function TripRouteMap({ places }: TripRouteMapProps) {
+  const [map, setMap] = useState<MapLibreMapInstance | null>(null);
   const [routeCoordinates, setRouteCoordinates] = useState<RouteCoordinate[]>([]);
 
   const sortedPlaces = useMemo(
@@ -115,67 +74,148 @@ export function TripRouteMap({ places }: TripRouteMapProps) {
   }, [routeKey, sortedPlaces]);
 
   const polylinePositions = routeCoordinates.map(
-    ([longitude, latitude]) => [latitude, longitude] as [number, number],
+    ([longitude, latitude]) => [longitude, latitude] as [number, number],
   );
 
+  useEffect(() => {
+    if (!map) {
+      return;
+    }
+
+    let isDisposed = false;
+    const markers: Marker[] = [];
+    const popups: Popup[] = [];
+
+    void import("maplibre-gl").then((maplibregl) => {
+      if (isDisposed) {
+        return;
+      }
+
+      for (const [index, place] of sortedPlaces.entries()) {
+        const popup = new maplibregl.Popup({
+          offset: 18,
+          closeButton: false,
+          closeOnMove: false,
+        }).setDOMContent(buildPlacePopupHtml(place, index + 1));
+
+        const marker = new maplibregl.Marker({
+          element: createMarkerElement("place"),
+        })
+          .setLngLat([place.longitude, place.latitude])
+          .setPopup(popup)
+          .addTo(map);
+
+        markers.push(marker);
+        popups.push(popup);
+      }
+    });
+
+    return () => {
+      isDisposed = true;
+      markers.forEach((marker) => marker.remove());
+      popups.forEach((popup) => popup.remove());
+    };
+  }, [map, sortedPlaces]);
+
+  useEffect(() => {
+    if (!map) {
+      return;
+    }
+
+    const fallbackCoordinates = getStraightLineRouteCoordinates(sortedPlaces);
+    const visibleRoute =
+      polylinePositions.length > 1 ? polylinePositions : fallbackCoordinates;
+
+    if (map.getLayer(routeLayerId)) {
+      map.removeLayer(routeLayerId);
+    }
+
+    if (map.getSource(routeSourceId)) {
+      map.removeSource(routeSourceId);
+    }
+
+    if (visibleRoute.length > 1) {
+      map.addSource(routeSourceId, {
+        type: "geojson",
+        data: {
+          type: "Feature",
+          properties: {},
+          geometry: {
+            type: "LineString",
+            coordinates: visibleRoute,
+          },
+        },
+      });
+
+      map.addLayer({
+        id: routeLayerId,
+        type: "line",
+        source: routeSourceId,
+        paint: {
+          "line-color": "#d98952",
+          "line-width": 4,
+          "line-opacity": 0.9,
+        },
+      });
+    }
+
+    const boundsCoordinates =
+      visibleRoute.length > 0
+        ? visibleRoute
+        : sortedPlaces.map(
+            (place) => [place.longitude, place.latitude] as [number, number],
+          );
+
+    if (boundsCoordinates.length === 0) {
+      map.easeTo({
+        center: fallbackCenter,
+        zoom: fallbackZoom,
+        duration: 800,
+      });
+      return;
+    }
+
+    if (boundsCoordinates.length === 1) {
+      map.easeTo({
+        center: boundsCoordinates[0],
+        zoom: singlePlaceZoom,
+        duration: 800,
+      });
+      return;
+    }
+
+    void import("maplibre-gl").then((maplibregl) => {
+      const bounds = boundsCoordinates.reduce(
+        (currentBounds, coordinate) => currentBounds.extend(coordinate),
+        new maplibregl.LngLatBounds(
+          boundsCoordinates[0],
+          boundsCoordinates[0],
+        ),
+      );
+
+      map.fitBounds(bounds, {
+        padding: 36,
+        duration: 800,
+      });
+    });
+
+    return () => {
+      if (map.getLayer(routeLayerId)) {
+        map.removeLayer(routeLayerId);
+      }
+
+      if (map.getSource(routeSourceId)) {
+        map.removeSource(routeSourceId);
+      }
+    };
+  }, [map, polylinePositions, sortedPlaces]);
+
   return (
-    <MapContainer
-      center={fallbackCenter}
-      zoom={5}
-      scrollWheelZoom
-      className="h-[420px] w-full rounded-[1.5rem] md:h-[480px]"
-    >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-
-      <TripRouteViewport places={sortedPlaces} routeCoordinates={routeCoordinates} />
-
-      {polylinePositions.length > 1 ? (
-        <Polyline
-          positions={polylinePositions}
-          pathOptions={{
-            color: "#d98952",
-            weight: 4,
-            opacity: 0.9,
-          }}
-        />
-      ) : null}
-
-      {sortedPlaces.map((place, index) => (
-        <CircleMarker
-          key={place.id}
-          center={[place.latitude, place.longitude]}
-          radius={9}
-          pathOptions={{
-            color: "#ffffff",
-            weight: 3,
-            fillColor: "#1f6b57",
-            fillOpacity: 1,
-          }}
-        >
-          <Popup>
-            <div className="space-y-2">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500">
-                Stop {index + 1}
-              </p>
-              <div>
-                <p className="text-base font-semibold">{place.name}</p>
-                <p className="text-sm text-zinc-600">
-                  {place.address || "Keine Adresse"}
-                </p>
-              </div>
-              <p className="text-xs text-zinc-500">
-                {place.latitude.toFixed(4)}, {place.longitude.toFixed(4)}
-              </p>
-              {place.note ? (
-                <p className="text-sm text-zinc-700">{place.note}</p>
-              ) : null}
-            </div>
-          </Popup>
-        </CircleMarker>
-      ))}
-    </MapContainer>
+    <MapLibreMap
+      className="maplibre-map-frame"
+      initialCenter={fallbackCenter}
+      initialZoom={fallbackZoom}
+      onMapReady={setMap}
+    />
   );
 }
