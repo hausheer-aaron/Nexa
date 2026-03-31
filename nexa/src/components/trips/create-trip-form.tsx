@@ -5,9 +5,10 @@ import { useRouter } from "next/navigation";
 
 type CreateTripFormProps = {
   action: (formData: FormData) => Promise<{ error?: string; success?: boolean }>;
+  onSuccess?: () => void;
 };
 
-export function CreateTripForm({ action }: CreateTripFormProps) {
+export function CreateTripForm({ action, onSuccess }: CreateTripFormProps) {
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [region, setRegion] = useState("");
@@ -53,6 +54,7 @@ export function CreateTripForm({ action }: CreateTripFormProps) {
       setEndDate("");
       setSuccess("Trip erfolgreich gespeichert.");
       setIsPending(false);
+      onSuccess?.();
       router.refresh();
     });
   }
