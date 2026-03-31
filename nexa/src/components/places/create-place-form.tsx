@@ -5,9 +5,10 @@ import { useRouter } from "next/navigation";
 
 type CreatePlaceFormProps = {
   action: (formData: FormData) => Promise<{ error?: string; success?: boolean }>;
+  onSuccess?: () => void;
 };
 
-export function CreatePlaceForm({ action }: CreatePlaceFormProps) {
+export function CreatePlaceForm({ action, onSuccess }: CreatePlaceFormProps) {
   const router = useRouter();
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
@@ -59,6 +60,7 @@ export function CreatePlaceForm({ action }: CreatePlaceFormProps) {
       setCountryName("");
       setSuccess("Place erfolgreich gespeichert.");
       setIsPending(false);
+      onSuccess?.();
       router.refresh();
     });
   }

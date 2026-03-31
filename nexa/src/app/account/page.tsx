@@ -1,19 +1,26 @@
 import { Suspense } from "react";
+import { AccountOverview } from "@/components/account/account-overview";
 import { AccountAuthPanel } from "@/components/auth/account-auth-panel";
+import { getCurrentAccountOverview } from "@/services/accountService";
 
-export default function AccountPage() {
+export default async function AccountPage() {
+  const overview = await getCurrentAccountOverview();
+
+  if (overview) {
+    return <AccountOverview overview={overview} />;
+  }
+
   return (
     <div className="space-y-6">
       <section>
         <p className="eyebrow text-accent">Account</p>
         <h1 className="mt-3 text-4xl font-semibold tracking-tight">
-          Login, Sync und spaetere Einstellungen
+          Login und Zugriff auf deine Daten
         </h1>
         <p className="mt-3 max-w-2xl text-sm leading-6 text-muted">
-          Hier laeuft jetzt die echte Supabase-Authentifizierung mit
-          Session-Persistenz im Browser und einem ersten Zugriff auf deine
-          Benutzer-Daten. Alle anderen Seiten sind fuer nicht eingeloggte
-          Nutzer gesperrt.
+          Melde dich an, um auf Trips, Places, Timeline und Kartenansicht
+          zuzugreifen. Nach dem Login dient diese Seite als einfache
+          Account-Uebersicht.
         </p>
       </section>
 

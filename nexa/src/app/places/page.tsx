@@ -1,6 +1,5 @@
-import { createPlaceAction } from "@/app/places/actions";
-import { CreatePlaceForm } from "@/components/places/create-place-form";
 import { PlacesList } from "@/components/places/places-list";
+import { PlacesCreateSection } from "@/components/places/places-create-section";
 import { getCurrentUserPlaces } from "@/services/placeService";
 
 export default async function PlacesPage() {
@@ -19,21 +18,8 @@ export default async function PlacesPage() {
         </p>
       </section>
 
-      <section className="grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
-        <article className="rounded-[1.75rem] border border-border bg-white/62 p-6">
-          <p className="eyebrow text-muted">Neuer Place</p>
-          <h2 className="mt-3 text-2xl font-semibold tracking-tight">
-            Ort anlegen
-          </h2>
-          <p className="mt-3 text-sm leading-6 text-muted">
-            Name, Koordinaten und optionale Zusatzinfos reichen fuer den ersten
-            Schritt.
-          </p>
-
-          <div className="mt-6">
-            <CreatePlaceForm action={createPlaceAction} />
-          </div>
-        </article>
+      <section className="space-y-6">
+        <PlacesCreateSection hasPlaces={places.length > 0} />
 
         <section className="space-y-4">
           <div>

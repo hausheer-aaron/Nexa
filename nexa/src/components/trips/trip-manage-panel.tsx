@@ -7,9 +7,10 @@ import type { Trip } from "@/types/entities";
 
 type TripManagePanelProps = {
   trip: Trip;
+  onSuccess?: () => void;
 };
 
-export function TripManagePanel({ trip }: TripManagePanelProps) {
+export function TripManagePanel({ trip, onSuccess }: TripManagePanelProps) {
   const router = useRouter();
   const [title, setTitle] = useState(trip.title);
   const [region, setRegion] = useState(trip.region ?? "");
@@ -51,6 +52,7 @@ export function TripManagePanel({ trip }: TripManagePanelProps) {
 
       setSuccess("Trip erfolgreich gespeichert.");
       setIsSaving(false);
+      onSuccess?.();
       router.refresh();
     });
   }

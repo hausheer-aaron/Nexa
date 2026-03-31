@@ -188,3 +188,48 @@ export async function assignPlaceToTrip(
 
   return data;
 }
+
+export async function removePlaceFromTrip(
+  placeId: string,
+  tripId: string,
+): Promise<void> {
+  const { supabase, user } = await requireAuthenticatedSupabase();
+
+  const [{ data: place, error: placeError }, { data: trip, error: tripError }] =
+    await Promise.all([
+      supabase
+        .from("places")
+        .select("id")
+        .eq("id", placeId)
+        .eq("user_id", user.id)
+        .maybeSingle(),
+      supabase
+        .from("trips")
+        .select("id")
+        .eq("id", tripId)
+        .eq("user_id", user.id)
+        .maybeSingle(),
+    ]);
+
+  if (placeError) {
+    throw new Error(placeError.message);
+  }
+
+  if (tripError) {
+    throw new Error(tripError.message);
+  }
+
+  if (!place || !trip) {
+    throw new Error("Place oder Trip wurde nicht gefunden.");
+  }
+
+  const { error } = await supabase
+    .from("trip_places")
+    .delete()
+    .eq("place_id", placeId)
+    .eq("trip_id", tripId);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+}

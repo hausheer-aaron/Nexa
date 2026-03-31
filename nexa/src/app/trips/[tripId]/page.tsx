@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { TripDetailActions } from "@/components/trips/trip-detail-actions";
 import { TripDetailCard } from "@/components/trips/trip-detail-card";
-import { TripManagePanel } from "@/components/trips/trip-manage-panel";
+import { TripPlaceAssignmentManager } from "@/components/trips/trip-place-assignment-manager";
 import { TripPlacesList } from "@/components/trips/trip-places-list";
 import { TripRouteMapShell } from "@/components/trips/trip-route-map-shell";
+import { getCurrentUserPlaces } from "@/services/placeService";
 import { getCurrentUserPlacesForTrip } from "@/services/tripPlaceService";
 import { getCurrentUserTripById } from "@/services/tripService";
 
@@ -13,9 +15,10 @@ type TripDetailPageProps = {
 
 export default async function TripDetailPage({ params }: TripDetailPageProps) {
   const { tripId } = await params;
-  const [trip, places] = await Promise.all([
+  const [trip, places, allPlaces] = await Promise.all([
     getCurrentUserTripById(tripId),
     getCurrentUserPlacesForTrip(tripId),
+    getCurrentUserPlaces(),
   ]);
 
   if (!trip) {
@@ -34,7 +37,12 @@ export default async function TripDetailPage({ params }: TripDetailPageProps) {
       </div>
 
       <TripDetailCard trip={trip} />
-      <TripManagePanel trip={trip} />
+      <TripDetailActions trip={trip} />
+      <TripPlaceAssignmentManager
+        tripId={trip.id}
+        assignedPlaces={places}
+        allPlaces={allPlaces}
+      />
       <section className="rounded-[1.75rem] border border-border bg-[#dbe8df] p-6">
         <div className="mb-5">
           <p className="eyebrow text-accent">Trip Route</p>
