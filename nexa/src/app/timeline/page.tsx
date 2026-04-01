@@ -44,15 +44,16 @@ export default async function TimelinePage() {
   const groups = groupPlacesByDate(places, tripsByPlaceId);
 
   return (
-    <div className="space-y-6">
-      <section>
+    <div className="space-y-8 xl:space-y-10">
+      <section className="rounded-[2rem] border border-border bg-white px-6 py-7 shadow-[0_18px_44px_rgba(32,24,16,0.04)] md:px-8 md:py-8">
         <p className="eyebrow text-accent">Timeline</p>
         <h1 className="mt-3 text-4xl font-semibold tracking-tight">
-          Chronologische Places Timeline
+          Dein Journal in der Zeitachse
         </h1>
-        <p className="mt-3 max-w-2xl text-sm leading-6 text-muted">
-          Alle Places des aktuell eingeloggten Users, gruppiert nach Datum und
-          sortiert nach dem neuesten Eintrag zuerst.
+        <p className="mt-3 max-w-3xl text-sm leading-7 text-muted">
+          Hier erscheinen gespeicherte Orte als chronologische Journal-Eintraege
+          mit Datum, Notiz und zugeordneten Reisen. Neueste Eintraege stehen
+          oben.
         </p>
       </section>
 

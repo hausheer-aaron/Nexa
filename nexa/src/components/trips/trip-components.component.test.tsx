@@ -22,7 +22,7 @@ describe("trip detail components", () => {
 
     expect(screen.getByText("Road Trip")).toBeInTheDocument();
     expect(screen.getByText("Zurich")).toBeInTheDocument();
-    expect(screen.getAllByText("Switzerland")).toHaveLength(2);
+    expect(screen.getByText("Switzerland")).toBeInTheDocument();
   });
 
   it("renders assigned places and the empty state", () => {

@@ -87,17 +87,20 @@ export function TripPlaceAssignmentManager({
   }
 
   return (
-    <section className="rounded-[1.75rem] border border-border bg-white/62 p-6">
-      <p className="eyebrow text-accent">Place Zuordnung</p>
+    <section className="rounded-[1.9rem] border border-border bg-white p-6 shadow-[0_16px_40px_rgba(32,24,16,0.04)]">
+      <p className="eyebrow text-accent">Trip Places</p>
       <h2 className="mt-3 text-2xl font-semibold tracking-tight">
-        Places in diesem Trip verwalten
+        Orte diesem Trip zuordnen
       </h2>
-      <p className="mt-3 max-w-2xl text-sm leading-6 text-muted">
-        Bestehende Places des Users koennen diesem Trip hinzugefuegt oder
-        wieder entfernt werden.
+      <p className="mt-3 max-w-2xl text-sm leading-7 text-muted">
+        Waehle bestehende Orte aus deinem Journal und fuege sie diesem Trip
+        hinzu. Bereits zugeordnete Orte kannst du direkt wieder entfernen.
       </p>
 
-      <form onSubmit={handleAssign} className="mt-6 space-y-4">
+      <form
+        onSubmit={handleAssign}
+        className="mt-6 space-y-4 rounded-[1.6rem] border border-border bg-surface-strong p-5"
+      >
         <label className="block">
           <span className="mb-2 block text-sm font-medium">Place auswaehlen</span>
           <select
@@ -142,15 +145,15 @@ export function TripPlaceAssignmentManager({
       <div className="mt-8">
         <p className="text-sm font-medium text-foreground">Bereits zugeordnet</p>
         {assignedPlaces.length === 0 ? (
-          <p className="mt-3 text-sm text-muted">
+          <div className="mt-3 rounded-[1.5rem] border border-dashed border-border bg-[#fbfaf7] p-5 text-sm text-muted">
             Diesem Trip sind aktuell noch keine Places zugeordnet.
-          </p>
+          </div>
         ) : (
           <div className="mt-4 space-y-4">
             {assignedPlaces.map((place) => (
               <div
                 key={place.id}
-                className="rounded-[1.5rem] border border-border bg-surface-strong p-4"
+                className="rounded-[1.6rem] border border-border bg-surface-strong p-5"
               >
                 <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                   <div>

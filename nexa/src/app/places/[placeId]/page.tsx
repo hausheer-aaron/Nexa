@@ -24,7 +24,7 @@ export default async function PlaceDetailPage({
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 xl:space-y-10">
       <div>
         <Link
           href="/places"
@@ -34,7 +34,7 @@ export default async function PlaceDetailPage({
         </Link>
       </div>
 
-      <PlaceDetailCard place={place} />
+      <PlaceDetailCard place={place} tripCount={assignedTrips.length} />
       <PlaceDetailActions place={place} />
       <PlaceTripList trips={assignedTrips} />
     </div>

@@ -19,9 +19,7 @@ describe("TripsList", () => {
   it("shows an empty state when no trips exist", () => {
     render(<TripsList trips={[]} />);
 
-    expect(
-      screen.getByText(/Noch keine Trips vorhanden/i),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Start your first trip/i)).toBeInTheDocument();
   });
 
   it("renders trip entries", () => {

@@ -6,10 +6,10 @@ type PlaceTripListProps = {
 
 export function PlaceTripList({ trips }: PlaceTripListProps) {
   return (
-    <section className="rounded-[1.75rem] border border-border bg-white/62 p-6">
+    <section className="rounded-[1.9rem] border border-border bg-white p-6 shadow-[0_16px_40px_rgba(32,24,16,0.04)]">
       <p className="eyebrow text-accent">Zugeordnete Trips</p>
       <h2 className="mt-3 text-2xl font-semibold tracking-tight">
-        Dieser Place gehoert zu folgenden Trips
+        Reisen mit diesem Ort
       </h2>
 
       {trips.length > 0 ? (
@@ -24,9 +24,9 @@ export function PlaceTripList({ trips }: PlaceTripListProps) {
           ))}
         </div>
       ) : (
-        <p className="mt-4 text-sm text-muted">
+        <div className="mt-4 rounded-[1.5rem] border border-dashed border-border bg-[#fbfaf7] p-5 text-sm text-muted">
           Dieser Place ist aktuell noch keinem Trip zugeordnet.
-        </p>
+        </div>
       )}
     </section>
   );

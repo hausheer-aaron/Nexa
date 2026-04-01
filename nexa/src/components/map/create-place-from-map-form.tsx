@@ -126,7 +126,8 @@ export function CreatePlaceFromMapForm({
       <div>
         <p className="eyebrow text-accent">Place speichern</p>
         <p className="mt-2 text-sm leading-6 text-muted">
-          Speichert den aktuell ausgewaehlten Kartenpunkt als neuen Place.
+          Halte den aktuell ausgewaehlten Kartenpunkt direkt als neuen Ort in
+          deinem Journal fest.
         </p>
       </div>
 

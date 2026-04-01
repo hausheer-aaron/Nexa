@@ -17,20 +17,20 @@ function formatDate(value: string | null) {
 
 export function AccountOverview({ overview }: AccountOverviewProps) {
   return (
-    <div className="space-y-6">
-      <section>
+    <div className="space-y-8 xl:space-y-10">
+      <section className="rounded-[2rem] border border-border bg-white px-6 py-7 shadow-[0_18px_44px_rgba(32,24,16,0.04)] md:px-8 md:py-8">
         <p className="eyebrow text-accent">Account</p>
         <h1 className="mt-3 text-4xl font-semibold tracking-tight">
-          Deine Account Uebersicht
+          Your Profile
         </h1>
-        <p className="mt-3 max-w-2xl text-sm leading-6 text-muted">
-          Basisdaten aus deinem Profil sowie eine kompakte Uebersicht deiner
-          gespeicherten Reisen und Orte.
+        <p className="mt-3 max-w-2xl text-sm leading-7 text-muted">
+          Ein ruhiger Ueberblick ueber Profil, Datenstand und die wenigen
+          Aktionen, die du fuer den Account gerade wirklich brauchst.
         </p>
       </section>
 
       <section className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
-        <article className="rounded-[1.75rem] border border-border bg-white/62 p-6">
+        <article className="rounded-[1.9rem] border border-border bg-white p-6 shadow-[0_16px_40px_rgba(32,24,16,0.04)]">
           <p className="eyebrow text-muted">Profil</p>
           <h2 className="mt-3 text-2xl font-semibold tracking-tight">
             Basisdaten
@@ -53,7 +53,7 @@ export function AccountOverview({ overview }: AccountOverviewProps) {
           </div>
         </article>
 
-        <article className="rounded-[1.75rem] border border-border bg-[#f6dfd0] p-6">
+        <article className="rounded-[1.9rem] border border-border bg-[#f7efe5] p-6 shadow-[0_16px_40px_rgba(32,24,16,0.04)]">
           <p className="eyebrow text-accent-warm">Uebersicht</p>
           <h2 className="mt-3 text-2xl font-semibold tracking-tight">
             Dein Datenstand

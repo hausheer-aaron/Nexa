@@ -19,7 +19,7 @@ describe("TimelineList", () => {
   it("renders an empty state when no groups exist", () => {
     render(<TimelineList groups={[]} />);
 
-    expect(screen.getByText(/Noch keine Places vorhanden/i)).toBeInTheDocument();
+    expect(screen.getByText(/Your journal starts here/i)).toBeInTheDocument();
   });
 
   it("renders grouped timeline entries with trip badges", () => {

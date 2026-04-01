@@ -10,16 +10,16 @@ type PlaceDetailActionsProps = {
 
 export function PlaceDetailActions({ place }: PlaceDetailActionsProps) {
   return (
-    <section className="rounded-[1.75rem] border border-border bg-white/62 p-6">
+    <section className="rounded-[1.9rem] border border-border bg-white p-6 shadow-[0_16px_40px_rgba(32,24,16,0.04)]">
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="eyebrow text-muted">Bearbeiten</p>
           <h2 className="mt-3 text-2xl font-semibold tracking-tight">
-            Ort Daten anpassen
+            Ort aktualisieren
           </h2>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-muted">
-            Die Detailansicht bleibt read-only. Bearbeitung und Loeschen liegen
-            gesammelt im Dialog.
+          <p className="mt-3 max-w-2xl text-sm leading-7 text-muted">
+            Die Detailansicht bleibt bewusst read-only. Fuer Bearbeiten und
+            Loeschen oeffnest du den Dialog und bleibst trotzdem im Kontext.
           </p>
         </div>
 

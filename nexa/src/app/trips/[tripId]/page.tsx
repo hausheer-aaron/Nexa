@@ -26,7 +26,7 @@ export default async function TripDetailPage({ params }: TripDetailPageProps) {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 xl:space-y-10">
       <div>
         <Link
           href="/trips"
@@ -36,30 +36,33 @@ export default async function TripDetailPage({ params }: TripDetailPageProps) {
         </Link>
       </div>
 
-      <TripDetailCard trip={trip} />
+      <TripDetailCard trip={trip} placeCount={places.length} />
       <TripDetailActions trip={trip} />
-      <TripPlaceAssignmentManager
-        tripId={trip.id}
-        assignedPlaces={places}
-        allPlaces={allPlaces}
-      />
-      <section className="rounded-[1.75rem] border border-border bg-[#dbe8df] p-6">
+      <section className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
+        <TripPlaceAssignmentManager
+          tripId={trip.id}
+          assignedPlaces={places}
+          allPlaces={allPlaces}
+        />
+        <TripPlacesList places={places} />
+      </section>
+      <section className="rounded-[2rem] border border-border bg-[#eef5f1] p-6 shadow-[0_18px_44px_rgba(32,24,16,0.04)]">
         <div className="mb-5">
           <p className="eyebrow text-accent">Trip Route</p>
           <h2 className="mt-3 text-2xl font-semibold tracking-tight">
-            Einfache Kartenansicht des Trips
+            Route und Ortspunkte
           </h2>
-          <p className="mt-3 text-sm leading-6 text-muted">
-            Die Marker und die Verbindungslinie folgen der Reihenfolge nach
-            `created_at`.
+          <p className="mt-3 text-sm leading-7 text-muted">
+            Die Karte zeigt die zugeordneten Orte in ihrer chronologischen
+            Reihenfolge. So wird aus dem Trip eine zusammenhaengende Route statt
+            einer blossen Datensammlung.
           </p>
         </div>
 
-        <div className="rounded-[1.5rem] border border-accent/15 bg-white/45 p-3">
+        <div className="rounded-[1.6rem] border border-accent/10 bg-white p-3">
           <TripRouteMapShell places={places} />
         </div>
       </section>
-      <TripPlacesList places={places} />
     </div>
   );
 }

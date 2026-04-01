@@ -19,9 +19,7 @@ describe("PlacesList", () => {
   it("shows an empty state when no places exist", () => {
     render(<PlacesList places={[]} />);
 
-    expect(
-      screen.getByText(/Noch keine Places vorhanden/i),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Save your first place/i)).toBeInTheDocument();
   });
 
   it("renders place entries", () => {

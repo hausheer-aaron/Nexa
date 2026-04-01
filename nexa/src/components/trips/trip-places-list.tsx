@@ -7,23 +7,23 @@ type TripPlacesListProps = {
 
 export function TripPlacesList({ places }: TripPlacesListProps) {
   return (
-    <section className="rounded-[1.75rem] border border-border bg-white/62 p-6">
+    <section className="rounded-[1.9rem] border border-border bg-white p-6 shadow-[0_16px_40px_rgba(32,24,16,0.04)]">
       <p className="eyebrow text-accent">Zugeordnete Places</p>
       <h2 className="mt-3 text-2xl font-semibold tracking-tight">
         Orte in diesem Trip
       </h2>
 
       {places.length === 0 ? (
-        <p className="mt-4 text-sm text-muted">
+        <div className="mt-4 rounded-[1.5rem] border border-dashed border-border bg-[#fbfaf7] p-5 text-sm text-muted">
           Diesem Trip sind aktuell noch keine Places zugeordnet.
-        </p>
+        </div>
       ) : (
         <div className="mt-5 space-y-4">
           {places.map((place) => (
             <Link
               key={place.id}
               href={`/places/${place.id}`}
-              className="block rounded-[1.5rem] border border-border bg-surface-strong p-4 transition-colors hover:border-accent/35 hover:bg-white"
+              className="block rounded-[1.6rem] border border-border bg-surface-strong p-5 transition-colors hover:border-accent/35 hover:bg-white"
             >
               <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                 <div>
