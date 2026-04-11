@@ -11,7 +11,7 @@ export function TripsList({ trips }: TripsListProps) {
       <div className="rounded-[1.8rem] border border-dashed border-black/10 bg-[#faf6f0] p-10 text-center">
         <p className="eyebrow text-accent">Noch leer</p>
         <h3 className="mt-3 text-3xl font-semibold tracking-tight text-foreground">
-          Lege deinen ersten Trip an
+          Start your first trip
         </h3>
         <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-muted">
           Lege die erste Reise an und schaffe den Ausgangspunkt fuer Timeline,
