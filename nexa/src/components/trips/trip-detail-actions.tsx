@@ -6,21 +6,38 @@ import type { Trip } from "@/types/entities";
 
 type TripDetailActionsProps = {
   trip: Trip;
+  compact?: boolean;
 };
 
-export function TripDetailActions({ trip }: TripDetailActionsProps) {
+export function TripDetailActions({
+  trip,
+  compact = false,
+}: TripDetailActionsProps) {
+  if (compact) {
+    return (
+      <CreateEntryModal
+        buttonLabel="Trip bearbeiten"
+        eyebrow="Trip Bearbeiten"
+        title="Trip bearbeiten"
+        description="Passe Titel, Region, Land und Zeitraum an oder loesche den Trip."
+      >
+        {({ closeModal }) => (
+          <TripManagePanel trip={trip} onSuccess={closeModal} />
+        )}
+      </CreateEntryModal>
+    );
+  }
+
   return (
-    <section className="rounded-[1.9rem] border border-border bg-white p-6 shadow-[0_16px_40px_rgba(32,24,16,0.04)]">
-      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+    <section className="rounded-[1.9rem] border border-black/8 bg-white/78 p-5 shadow-[0_16px_40px_rgba(32,24,16,0.05)] md:p-6">
+      <div className="space-y-4">
         <div>
           <p className="eyebrow text-muted">Bearbeiten</p>
-          <h2 className="mt-3 text-2xl font-semibold tracking-tight">
+          <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground">
             Trip aktualisieren
           </h2>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-muted">
-            Die Detailansicht bleibt bewusst ruhig. Aenderungen und Loeschen
-            bleiben gesammelt im Dialog, damit Inhalt und Bearbeitung getrennt
-            bleiben.
+          <p className="mt-3 text-sm leading-7 text-muted">
+            Passe Stammdaten an oder loesche den Trip gesammelt im Dialog.
           </p>
         </div>
 

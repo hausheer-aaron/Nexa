@@ -17,34 +17,44 @@ function formatDate(value: string | null) {
 
 export function AccountOverview({ overview }: AccountOverviewProps) {
   return (
-    <div className="space-y-8 xl:space-y-10">
-      <section className="rounded-[2rem] border border-border bg-white px-6 py-7 shadow-[0_18px_44px_rgba(32,24,16,0.04)] md:px-8 md:py-8">
-        <p className="eyebrow text-accent">Account</p>
-        <h1 className="mt-3 text-4xl font-semibold tracking-tight">
-          Your Profile
-        </h1>
-        <p className="mt-3 max-w-2xl text-sm leading-7 text-muted">
-          Ein ruhiger Ueberblick ueber Profil, Datenstand und die wenigen
-          Aktionen, die du fuer den Account gerade wirklich brauchst.
-        </p>
+    <div className="space-y-6 md:space-y-8 xl:space-y-10">
+      <section className="overflow-hidden rounded-[2.2rem] border border-white/75 bg-[linear-gradient(135deg,rgba(255,255,255,0.97),rgba(248,243,235,0.9))] px-5 py-6 shadow-[0_28px_80px_rgba(32,24,16,0.08)] sm:px-6 md:px-8 md:py-8 xl:px-10 xl:py-9">
+        <div className="space-y-4">
+          <div className="flex flex-wrap items-center gap-3">
+            <p className="eyebrow text-accent">Account</p>
+            <span className="rounded-full border border-black/8 bg-white/75 px-3 py-1.5 text-xs font-medium text-muted">
+              Profil und Datenstand
+            </span>
+          </div>
+          <h1 className="max-w-4xl text-[2.45rem] font-semibold tracking-[-0.045em] text-foreground sm:text-5xl xl:text-[4.4rem] xl:leading-[1.02]">
+            Dein Profil,
+            <span className="block text-foreground/72">
+              konzentriert auf die wenigen Dinge, die zaehlen.
+            </span>
+          </h1>
+          <p className="max-w-3xl text-[0.98rem] leading-7 text-muted md:text-lg">
+            Ein ruhiger Ueberblick ueber Profil, Datenstand und die wenigen
+            Aktionen, die du fuer den Account gerade wirklich brauchst.
+          </p>
+        </div>
       </section>
 
-      <section className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
-        <article className="rounded-[1.9rem] border border-border bg-white p-6 shadow-[0_16px_40px_rgba(32,24,16,0.04)]">
+      <section className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr] xl:items-stretch">
+        <article className="rounded-[1.9rem] border border-black/8 bg-white/82 p-6 shadow-[0_16px_40px_rgba(32,24,16,0.05)]">
           <p className="eyebrow text-muted">Profil</p>
-          <h2 className="mt-3 text-2xl font-semibold tracking-tight">
+          <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground">
             Basisdaten
           </h2>
 
           <div className="mt-6 grid gap-4 md:grid-cols-2">
-            <div className="rounded-[1.5rem] bg-surface-strong p-4 md:col-span-2">
+            <div className="rounded-[1.5rem] bg-[#faf7f1] p-4 md:col-span-2">
               <p className="text-sm text-muted">E-Mail</p>
               <p className="mt-2 text-lg font-semibold">
                 {overview.email ?? "Nicht verfuegbar"}
               </p>
             </div>
 
-            <div className="rounded-[1.5rem] bg-surface-strong p-4 md:col-span-2">
+            <div className="rounded-[1.5rem] bg-[#faf7f1] p-4 md:col-span-2">
               <p className="text-sm text-muted">Registriert seit</p>
               <p className="mt-2 text-lg font-semibold">
                 {formatDate(overview.registeredAt)}
@@ -53,9 +63,9 @@ export function AccountOverview({ overview }: AccountOverviewProps) {
           </div>
         </article>
 
-        <article className="rounded-[1.9rem] border border-border bg-[#f7efe5] p-6 shadow-[0_16px_40px_rgba(32,24,16,0.04)]">
+        <article className="rounded-[1.9rem] border border-black/8 bg-[#f7efe5] p-6 shadow-[0_16px_40px_rgba(32,24,16,0.05)]">
           <p className="eyebrow text-accent-warm">Uebersicht</p>
-          <h2 className="mt-3 text-2xl font-semibold tracking-tight">
+          <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground">
             Dein Datenstand
           </h2>
 

@@ -14,16 +14,24 @@ export function DashboardHeroSection({
   const hasContent = tripCount > 0 || placeCount > 0;
 
   return (
-    <section className="rounded-[2rem] border border-border bg-white px-6 py-8 shadow-[0_24px_60px_rgba(32,24,16,0.08)] md:px-8 md:py-10 xl:px-10 xl:py-12">
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1.4fr)_minmax(280px,0.8fr)] lg:items-end">
-        <div className="space-y-5">
-          <div className="space-y-3">
+    <section className="overflow-hidden rounded-[2.2rem] border border-white/75 bg-[linear-gradient(135deg,rgba(255,255,255,0.97),rgba(248,243,235,0.9))] px-5 py-6 shadow-[0_28px_80px_rgba(32,24,16,0.08)] sm:px-6 md:px-8 md:py-8 xl:px-10 xl:py-9 2xl:px-12 2xl:py-10">
+      <div className="grid gap-8 xl:grid-cols-[minmax(0,1.7fr)_minmax(300px,0.78fr)] xl:items-end">
+        <div className="space-y-8">
+          <div className="flex flex-wrap items-center gap-3">
             <p className="eyebrow text-accent">Dashboard</p>
-            <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-foreground md:text-5xl xl:text-6xl">
-              Welcome back. Dein Travel Journal ist bereit fuer den naechsten
-              Stop.
+            <span className="rounded-full border border-black/8 bg-white/75 px-3 py-1.5 text-xs font-medium text-muted">
+              Premium travel journal
+            </span>
+          </div>
+
+          <div className="space-y-4">
+            <h1 className="max-w-4xl text-[2.45rem] font-semibold tracking-[-0.045em] text-foreground sm:text-5xl xl:text-[4.6rem] xl:leading-[1.01] 2xl:max-w-[15ch]">
+              Welcome back.
+              <span className="block text-foreground/72">
+                Dein Journal bleibt klar, ruhig und reisefertig.
+              </span>
             </h1>
-            <p className="max-w-2xl text-base leading-7 text-muted md:text-lg">
+            <p className="max-w-3xl text-[0.98rem] leading-7 text-muted md:text-lg">
               {hasContent
                 ? `Du verwaltest aktuell ${formatCount(
                     tripCount,
@@ -33,44 +41,55 @@ export function DashboardHeroSection({
                     placeCount,
                     "Place",
                     "Places",
-                  )}. Starte direkt mit dem naechsten Eintrag oder springe in deine Karte.`
-                : "Noch ist dein Journal leer. Lege den ersten Trip oder den ersten gespeicherten Ort an und baue dir eine klare Reisehistorie auf."}
+                  )}. Oeffne zuletzt bearbeitete Inhalte oder setze direkt den naechsten Eintrag.`
+                : "Noch ist dein Journal leer. Lege den ersten Trip oder Ort an und baue dir eine klare Reisehistorie auf."}
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-3 text-sm text-muted">
-            <span className="rounded-full border border-border bg-surface-strong px-4 py-2">
+          <div className="flex flex-wrap gap-3 text-sm">
+            <span className="rounded-full bg-[#1f6b57] px-4 py-2.5 font-semibold text-white shadow-[0_12px_24px_rgba(31,107,87,0.22)]">
               {formatCount(tripCount, "Trip", "Trips")}
             </span>
-            <span className="rounded-full border border-border bg-surface-strong px-4 py-2">
+            <span className="rounded-full border border-black/8 bg-white/78 px-4 py-2.5 font-medium text-foreground/78">
               {formatCount(placeCount, "Place", "Places")}
             </span>
-            <span className="rounded-full border border-border bg-surface-strong px-4 py-2">
+            <span className="rounded-full border border-black/8 bg-white/65 px-4 py-2.5 font-medium text-muted">
               Alles auf einen Blick
             </span>
           </div>
         </div>
 
-        <aside className="rounded-[1.75rem] border border-border bg-[#f7efe5] p-5 md:p-6">
-          <p className="eyebrow text-accent-warm">Heute im Fokus</p>
-          <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
-            <div className="rounded-[1.5rem] bg-white/75 p-4">
-              <p className="text-sm text-muted">Trips</p>
-              <p className="mt-2 text-3xl font-semibold tracking-tight text-foreground">
-                {tripCount}
-              </p>
-              <p className="mt-2 text-sm leading-6 text-muted">
-                Plane Reisen sauber nach Zeitraum, Region und Land.
+        <aside className="rounded-[1.9rem] border border-black/8 bg-[#f5ecdf]/88 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] md:p-6 xl:min-h-full">
+          <p className="eyebrow text-accent-warm">Today</p>
+          <div className="mt-5 space-y-5">
+            <div>
+              <p className="text-sm font-medium text-muted">Im Fokus</p>
+              <p className="mt-2 text-2xl font-semibold tracking-tight text-foreground">
+                {hasContent
+                  ? "Recent content zuerst, Kennzahlen danach."
+                  : "Starte mit einem ruhigen, klaren ersten Eintrag."}
               </p>
             </div>
-            <div className="rounded-[1.5rem] bg-white/75 p-4">
-              <p className="text-sm text-muted">Places</p>
-              <p className="mt-2 text-3xl font-semibold tracking-tight text-foreground">
-                {placeCount}
-              </p>
-              <p className="mt-2 text-sm leading-6 text-muted">
-                Jeder gespeicherte Ort bleibt direkt im Reisekontext abrufbar.
-              </p>
+
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+              <div className="border-t border-black/8 pt-4">
+                <p className="text-sm text-muted">Trips</p>
+                <p className="mt-2 text-3xl font-semibold tracking-tight text-foreground">
+                  {tripCount}
+                </p>
+                <p className="mt-2 text-sm leading-6 text-muted">
+                  Reisen mit Zeitraum, Region und Land strukturiert verwalten.
+                </p>
+              </div>
+              <div className="border-t border-black/8 pt-4">
+                <p className="text-sm text-muted">Places</p>
+                <p className="mt-2 text-3xl font-semibold tracking-tight text-foreground">
+                  {placeCount}
+                </p>
+                <p className="mt-2 text-sm leading-6 text-muted">
+                  Gespeicherte Orte bleiben direkt im Reisekontext abrufbar.
+                </p>
+              </div>
             </div>
           </div>
         </aside>

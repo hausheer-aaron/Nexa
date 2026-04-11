@@ -35,7 +35,7 @@ export function PlacesMapShell({ places }: PlacesMapShellProps) {
         onSelectPoint={setSelectedPoint}
       />
 
-      <div className="rounded-[1.5rem] border border-border bg-white px-4 py-4">
+      <div className="rounded-[1.5rem] border border-black/8 bg-white/86 px-4 py-4">
         <p className="eyebrow text-accent">Ausgewaehlter Punkt</p>
         {selectedPoint ? (
           <div className="mt-3 space-y-1">
@@ -54,7 +54,7 @@ export function PlacesMapShell({ places }: PlacesMapShellProps) {
         )}
       </div>
 
-      <div className="rounded-[1.5rem] border border-border bg-white px-4 py-4">
+      <div className="rounded-[1.5rem] border border-black/8 bg-white/86 px-4 py-4">
         <CreatePlaceFromMapForm
           key={
             selectedPoint

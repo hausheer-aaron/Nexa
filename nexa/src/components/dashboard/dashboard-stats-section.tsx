@@ -14,15 +14,18 @@ export function DashboardStatsSection({
   recentPlaceCount,
 }: DashboardStatsSectionProps) {
   return (
-    <section className="space-y-4">
+    <section className="flex h-full flex-col rounded-[1.9rem] border border-black/8 bg-[#fbf7f1] p-4 sm:p-5 md:p-6">
       <div>
         <p className="eyebrow text-muted">Stats</p>
         <h2 className="mt-2 text-2xl font-semibold tracking-tight text-foreground">
           Kompakte Kennzahlen
         </h2>
+        <p className="mt-2 text-sm leading-6 text-muted">
+          Leise, schnell lesbare Orientierung fuer deinen aktuellen Bestand.
+        </p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="mt-4 grid flex-1 content-start gap-3 sm:grid-cols-2">
         <DashboardStatCard
           label="Trips"
           value={tripCount}

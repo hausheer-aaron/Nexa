@@ -5,38 +5,53 @@ export default async function MapPage() {
   const places = await getCurrentUserPlaces();
 
   return (
-    <div className="space-y-8 xl:space-y-10">
-      <section className="rounded-[2rem] border border-border bg-white px-6 py-7 shadow-[0_18px_44px_rgba(32,24,16,0.04)] md:px-8 md:py-8">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-          <div>
-            <p className="eyebrow text-accent">Map</p>
-            <h1 className="mt-3 text-4xl font-semibold tracking-tight">
-              Explore your places
+    <div className="space-y-6 md:space-y-8 xl:space-y-10">
+      <section className="overflow-hidden rounded-[2.2rem] border border-white/75 bg-[linear-gradient(135deg,rgba(255,255,255,0.97),rgba(248,243,235,0.9))] px-5 py-6 shadow-[0_28px_80px_rgba(32,24,16,0.08)] sm:px-6 md:px-8 md:py-8 xl:px-10 xl:py-9">
+        <div className="flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between">
+          <div className="space-y-4">
+            <div className="flex flex-wrap items-center gap-3">
+              <p className="eyebrow text-accent">Map</p>
+              <span className="rounded-full border border-black/8 bg-white/75 px-3 py-1.5 text-xs font-medium text-muted">
+                Live Kartenansicht
+              </span>
+            </div>
+            <h1 className="max-w-4xl text-[2.45rem] font-semibold tracking-[-0.045em] text-foreground sm:text-5xl xl:text-[4.4rem] xl:leading-[1.02]">
+              Deine Orte,
+              <span className="block text-foreground/72">
+                direkt im Raum und im Kontext sichtbar.
+              </span>
             </h1>
-            <p className="mt-4 max-w-3xl text-sm leading-7 text-muted">
+            <p className="max-w-3xl text-[0.98rem] leading-7 text-muted md:text-lg">
               Nutze die Karte als explorativen Einstieg in dein Journal. Marker
               zeigen bestehende Orte, ein Klick auf die Karte setzt direkt den
               naechsten gespeicherten Punkt.
             </p>
           </div>
-          <div className="rounded-full border border-border bg-surface-strong px-4 py-2 text-sm font-medium text-foreground/75">
-            {places.length === 0
-              ? "Noch keine Marker vorhanden"
-              : `${places.length} Marker sichtbar`}
+
+          <div className="rounded-[1.7rem] border border-black/8 bg-white/72 px-5 py-4">
+            <p className="text-sm text-muted">Aktueller Stand</p>
+            <p className="mt-2 text-3xl font-semibold tracking-tight text-foreground">
+              {places.length}
+            </p>
+            <p className="mt-2 text-sm leading-6 text-muted">
+              {places.length === 0
+                ? "Noch keine Marker vorhanden."
+                : `${places.length} Marker aktuell sichtbar.`}
+            </p>
           </div>
         </div>
       </section>
 
-      <section className="grid gap-6 xl:grid-cols-[1.45fr_0.75fr]">
-        <article className="rounded-[2rem] border border-border bg-[#eef5f1] p-4 shadow-[0_18px_44px_rgba(32,24,16,0.04)] md:p-5">
-          <div className="rounded-[1.7rem] border border-accent/10 bg-white p-3">
+      <section className="grid gap-6 xl:grid-cols-[minmax(0,1.5fr)_minmax(320px,0.85fr)] xl:items-stretch">
+        <article className="rounded-[1.95rem] border border-black/8 bg-[#eef5f1] p-4 shadow-[0_18px_44px_rgba(32,24,16,0.05)] md:p-5">
+          <div className="rounded-[1.7rem] border border-accent/10 bg-white/92 p-3">
             <PlacesMapShell places={places} />
           </div>
         </article>
 
-        <article className="rounded-[2rem] border border-border bg-white p-6 shadow-[0_18px_44px_rgba(32,24,16,0.04)]">
+        <article className="rounded-[1.95rem] border border-black/8 bg-white/82 p-5 shadow-[0_18px_44px_rgba(32,24,16,0.05)] md:p-6">
           <p className="eyebrow text-accent">Map Journal</p>
-          <h2 className="mt-3 text-2xl font-semibold tracking-tight">
+          <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground">
             Orte im aktuellen Blickfeld
           </h2>
           <p className="mt-3 text-sm leading-7 text-muted">
@@ -46,9 +61,9 @@ export default async function MapPage() {
 
           <div className="mt-5 space-y-4">
             {places.length === 0 ? (
-              <div className="rounded-[1.6rem] border border-dashed border-border bg-[#fbfaf7] p-5 text-center">
+              <div className="rounded-[1.6rem] border border-dashed border-black/10 bg-[#faf6f0] p-5 text-center">
                 <p className="text-lg font-semibold tracking-tight text-foreground">
-                  Add your first place
+                  Lege den ersten Ort an
                 </p>
                 <p className="mt-2 text-sm leading-7 text-muted">
                   Sobald du einen Ort speicherst, wird er hier als Marker und in
@@ -59,7 +74,7 @@ export default async function MapPage() {
               places.map((place) => (
                 <div
                   key={place.id}
-                  className="rounded-[1.6rem] border border-border bg-surface-strong p-4"
+                  className="rounded-[1.55rem] border border-black/8 bg-[#faf7f1] p-4"
                 >
                   <p className="font-semibold">{place.name}</p>
                   <p className="mt-1 text-sm text-muted">

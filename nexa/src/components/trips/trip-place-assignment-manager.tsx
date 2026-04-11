@@ -87,79 +87,103 @@ export function TripPlaceAssignmentManager({
   }
 
   return (
-    <section className="rounded-[1.9rem] border border-border bg-white p-6 shadow-[0_16px_40px_rgba(32,24,16,0.04)]">
-      <p className="eyebrow text-accent">Trip Places</p>
-      <h2 className="mt-3 text-2xl font-semibold tracking-tight">
-        Orte diesem Trip zuordnen
-      </h2>
-      <p className="mt-3 max-w-2xl text-sm leading-7 text-muted">
-        Waehle bestehende Orte aus deinem Journal und fuege sie diesem Trip
-        hinzu. Bereits zugeordnete Orte kannst du direkt wieder entfernen.
-      </p>
-
-      <form
-        onSubmit={handleAssign}
-        className="mt-6 space-y-4 rounded-[1.6rem] border border-border bg-surface-strong p-5"
-      >
-        <label className="block">
-          <span className="mb-2 block text-sm font-medium">Place auswaehlen</span>
-          <select
-            value={placeId}
-            onChange={(event) => setPlaceId(event.target.value)}
-            disabled={availablePlaces.length === 0 || isAssigning}
-            className="w-full rounded-[1rem] border border-border bg-surface-strong px-4 py-3 outline-none focus:border-accent disabled:opacity-60"
-          >
-            {availablePlaces.length === 0 ? (
-              <option value="">Keine weiteren Places verfuegbar</option>
-            ) : (
-              availablePlaces.map((place) => (
-                <option key={place.id} value={place.id}>
-                  {place.name}
-                </option>
-              ))
-            )}
-          </select>
-        </label>
-
-        {success ? (
-          <p className="rounded-[1rem] bg-accent-soft px-4 py-3 text-sm text-accent">
-            {success}
+    <section className="rounded-[1.95rem] border border-black/8 bg-white/82 p-5 shadow-[0_16px_40px_rgba(32,24,16,0.05)] md:p-6">
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+        <div>
+          <p className="eyebrow text-accent">Trip Places</p>
+          <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground">
+            Orte diesem Trip zuordnen
+          </h2>
+          <p className="mt-3 max-w-2xl text-sm leading-7 text-muted">
+            Fuege bestehende Orte ueber eine einfache Auswahl hinzu und verwalte
+            alle bereits zugeordneten Orte direkt darunter.
           </p>
-        ) : null}
+        </div>
 
-        {error ? (
-          <p className="rounded-[1rem] bg-[#f6dfd0] px-4 py-3 text-sm text-[#7a4122]">
-            {error}
-          </p>
-        ) : null}
-
-        <button
-          type="submit"
-          disabled={availablePlaces.length === 0 || isAssigning}
-          className="rounded-full bg-accent px-5 py-3 text-sm font-semibold text-white disabled:opacity-60"
+        <form
+          onSubmit={handleAssign}
+          className="w-full rounded-[1.55rem] border border-black/8 bg-[#faf7f1] p-4 lg:max-w-md"
         >
-          {isAssigning ? "Speichere..." : "Place hinzufuegen"}
-        </button>
-      </form>
+          <label className="block">
+            <span className="mb-2 block text-sm font-medium text-foreground">
+              Place auswaehlen
+            </span>
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <select
+                value={placeId}
+                onChange={(event) => setPlaceId(event.target.value)}
+                disabled={availablePlaces.length === 0 || isAssigning}
+                className="w-full rounded-[1rem] border border-black/8 bg-white px-4 py-3 outline-none focus:border-accent disabled:opacity-60"
+              >
+                {availablePlaces.length === 0 ? (
+                  <option value="">Keine weiteren Places verfuegbar</option>
+                ) : (
+                  availablePlaces.map((place) => (
+                    <option key={place.id} value={place.id}>
+                      {place.name}
+                    </option>
+                  ))
+                )}
+              </select>
+              <button
+                type="submit"
+                disabled={availablePlaces.length === 0 || isAssigning}
+                className="shrink-0 rounded-full bg-accent px-5 py-3 text-sm font-semibold text-white disabled:opacity-60"
+              >
+                {isAssigning ? "Speichere..." : "Place hinzufuegen"}
+              </button>
+            </div>
+          </label>
+
+          <div className="mt-3 flex flex-wrap gap-2 text-sm text-muted">
+            <span className="rounded-full border border-black/8 bg-white px-3 py-1.5">
+              {assignedPlaces.length} zugeordnet
+            </span>
+            <span className="rounded-full border border-black/8 bg-white px-3 py-1.5">
+              {availablePlaces.length} verfuegbar
+            </span>
+          </div>
+        </form>
+      </div>
+
+      {success ? (
+        <p className="mt-4 rounded-[1rem] bg-accent-soft px-4 py-3 text-sm text-accent">
+          {success}
+        </p>
+      ) : null}
+
+      {error ? (
+        <p className="mt-4 rounded-[1rem] bg-[#f6dfd0] px-4 py-3 text-sm text-[#7a4122]">
+          {error}
+        </p>
+      ) : null}
 
       <div className="mt-8">
-        <p className="text-sm font-medium text-foreground">Bereits zugeordnet</p>
+        <div className="flex items-center justify-between gap-4">
+          <p className="text-sm font-medium text-foreground">Aktuell zugeordnet</p>
+          <p className="text-sm text-muted">
+            {assignedPlaces.length === 0
+              ? "Noch keine Orte"
+              : `${assignedPlaces.length} ${assignedPlaces.length === 1 ? "Ort" : "Orte"}`}
+          </p>
+        </div>
+
         {assignedPlaces.length === 0 ? (
-          <div className="mt-3 rounded-[1.5rem] border border-dashed border-border bg-[#fbfaf7] p-5 text-sm text-muted">
+          <div className="mt-3 rounded-[1.55rem] border border-dashed border-black/10 bg-[#faf6f0] p-5 text-sm text-muted">
             Diesem Trip sind aktuell noch keine Places zugeordnet.
           </div>
         ) : (
-          <div className="mt-4 space-y-4">
+          <div className="mt-4 grid gap-4 lg:grid-cols-2">
             {assignedPlaces.map((place) => (
               <div
                 key={place.id}
-                className="rounded-[1.6rem] border border-border bg-surface-strong p-5"
+                className="rounded-[1.6rem] border border-black/8 bg-[#faf7f1] p-5"
               >
                 <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                   <div>
                     <Link
                       href={`/places/${place.id}`}
-                      className="text-xl font-semibold tracking-tight hover:text-accent"
+                      className="text-xl font-semibold tracking-tight text-foreground hover:text-accent"
                     >
                       {place.name}
                     </Link>
