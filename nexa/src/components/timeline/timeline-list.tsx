@@ -31,7 +31,7 @@ function formatDateTime(date: string) {
 export function TimelineList({ groups }: TimelineListProps) {
   if (groups.length === 0) {
     return (
-      <div className="rounded-[2rem] border border-dashed border-border bg-white p-10 text-center shadow-[0_14px_36px_rgba(32,24,16,0.03)]">
+      <div className="rounded-[1.9rem] border border-dashed border-black/10 bg-[#faf6f0] p-10 text-center">
         <p className="eyebrow text-accent">Timeline</p>
         <h3 className="mt-3 text-3xl font-semibold tracking-tight text-foreground">
           Your journal starts here
@@ -48,7 +48,7 @@ export function TimelineList({ groups }: TimelineListProps) {
     <div className="space-y-10">
       {groups.map((group) => (
         <section key={group.dateLabel} className="space-y-5">
-          <div className="sticky top-20 z-10 rounded-full border border-border bg-white/95 px-4 py-2 shadow-[0_10px_24px_rgba(32,24,16,0.05)] backdrop-blur">
+          <div className="sticky top-20 z-10 rounded-full border border-black/8 bg-white/95 px-4 py-2 shadow-[0_10px_24px_rgba(32,24,16,0.05)] backdrop-blur">
             <p className="text-sm font-semibold text-foreground">
               {formatDate(group.dateLabel)}
             </p>
@@ -59,7 +59,7 @@ export function TimelineList({ groups }: TimelineListProps) {
               <Link
                 key={place.id}
                 href={`/places/${place.id}`}
-                className="block rounded-[1.9rem] border border-border bg-white p-6 shadow-[0_14px_36px_rgba(32,24,16,0.04)] transition hover:border-accent/25 hover:shadow-[0_20px_48px_rgba(32,24,16,0.08)]"
+                className="block rounded-[1.85rem] border border-black/8 bg-white/86 p-6 shadow-[0_14px_36px_rgba(32,24,16,0.04)] transition hover:border-accent/25 hover:bg-white hover:shadow-[0_20px_48px_rgba(32,24,16,0.08)]"
               >
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                   <div className="max-w-3xl">

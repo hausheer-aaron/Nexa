@@ -156,8 +156,8 @@ export function AccountAuthPanel() {
   }
 
   return (
-    <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-      <article className="rounded-[1.75rem] border border-border bg-white/62 p-6">
+    <section className="grid gap-6 lg:grid-cols-[1.08fr_0.92fr]">
+      <article className="rounded-[1.9rem] border border-black/8 bg-white/82 p-6 shadow-[0_16px_40px_rgba(32,24,16,0.05)]">
         <div className="flex items-center justify-between gap-3">
           <div>
             <p className="eyebrow text-muted">Supabase Auth</p>
@@ -166,7 +166,7 @@ export function AccountAuthPanel() {
             </h2>
           </div>
 
-          <div className="flex rounded-full border border-border bg-surface-strong p-1">
+          <div className="flex rounded-full border border-black/8 bg-[#f7f3ec] p-1">
             <button
               type="button"
               onClick={() => setMode("signin")}
@@ -190,7 +190,7 @@ export function AccountAuthPanel() {
 
         {user ? (
           <div className="mt-6 space-y-4">
-            <div className="rounded-[1.5rem] bg-surface-strong p-4">
+            <div className="rounded-[1.5rem] bg-[#faf7f1] p-4">
               <p className="text-sm text-muted">Aktuelle Session</p>
               <p className="mt-2 text-lg font-semibold">{user.email}</p>
               <p className="mt-2 text-sm text-muted">User ID: {user.id}</p>
@@ -224,7 +224,7 @@ export function AccountAuthPanel() {
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
                 required
-                className="w-full rounded-[1rem] border border-border bg-surface-strong px-4 py-3 outline-none focus:border-accent"
+                className="w-full rounded-[1rem] border border-black/8 bg-[#faf7f1] px-4 py-3 outline-none focus:border-accent"
                 placeholder="you@example.com"
               />
             </label>
@@ -237,7 +237,7 @@ export function AccountAuthPanel() {
                 onChange={(event) => setPassword(event.target.value)}
                 required
                 minLength={6}
-                className="w-full rounded-[1rem] border border-border bg-surface-strong px-4 py-3 outline-none focus:border-accent"
+                className="w-full rounded-[1rem] border border-black/8 bg-[#faf7f1] px-4 py-3 outline-none focus:border-accent"
                 placeholder="Mindestens 6 Zeichen"
               />
             </label>
@@ -269,7 +269,7 @@ export function AccountAuthPanel() {
         ) : null}
       </article>
 
-      <article className="rounded-[1.75rem] border border-border bg-[#f6dfd0] p-6">
+      <article className="rounded-[1.9rem] border border-black/8 bg-[#f6dfd0] p-6 shadow-[0_16px_40px_rgba(32,24,16,0.05)]">
         <p className="eyebrow text-accent-warm">Database Snapshot</p>
         <div className="mt-5 grid gap-3 sm:grid-cols-2">
           <div className="rounded-[1.5rem] bg-white/55 p-4">

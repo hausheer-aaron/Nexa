@@ -28,10 +28,8 @@ export function AppShell({ children }: AppShellProps) {
         </div>
       </header>
 
-      <main className="flex w-full flex-1 flex-col px-4 py-5 md:px-6 md:py-6 xl:px-10">
-        <div className="glass-panel flex-1 rounded-[1.75rem] p-5 md:p-8">
-          {children}
-        </div>
+      <main className="flex w-full flex-1 flex-col px-4 py-4 md:px-6 md:py-5 xl:px-10">
+        {children}
       </main>
 
       <AppFooter />

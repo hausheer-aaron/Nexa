@@ -21,30 +21,23 @@ export default async function HomePage() {
   ]);
 
   return (
-    <div className="flex w-full flex-col gap-8 xl:gap-10">
+    <div className="flex w-full flex-col gap-6 md:gap-8 xl:gap-10">
       <DashboardHeroSection tripCount={tripCount} placeCount={placeCount} />
 
-      <DashboardQuickActions />
+      <section className="grid gap-6 xl:grid-cols-[minmax(0,1.2fr)_minmax(0,0.9fr)] xl:items-stretch">
+        <DashboardQuickActions />
 
-      <DashboardStatsSection
-        tripCount={tripCount}
-        placeCount={placeCount}
-        recentTripCount={recentTrips.length}
-        recentPlaceCount={recentPlaces.length}
-      />
+        <DashboardStatsSection
+          tripCount={tripCount}
+          placeCount={placeCount}
+          recentTripCount={recentTrips.length}
+          recentPlaceCount={recentPlaces.length}
+        />
+      </section>
 
-      <section className="space-y-4">
-        <div>
-          <p className="eyebrow text-muted">Recent Activity</p>
-          <h2 className="mt-2 text-2xl font-semibold tracking-tight text-foreground">
-            Zuletzt aktualisiert
-          </h2>
-        </div>
-
-        <div className="grid gap-6 xl:grid-cols-2">
-          <RecentTripsCard trips={recentTrips} />
-          <RecentPlacesCard places={recentPlaces} />
-        </div>
+      <section className="grid gap-6 xl:grid-cols-2 xl:items-stretch">
+        <RecentTripsCard trips={recentTrips} />
+        <RecentPlacesCard places={recentPlaces} />
       </section>
     </div>
   );
