@@ -7,7 +7,7 @@ export default defineConfig({
     setupFiles: ["./src/test/setup.ts"],
     css: true,
     globals: false,
-    include: ["src/**/*.unit.test.ts", "src/**/*.unit.test.tsx"],
+    include: ["src/test/unit/**/*.test.ts", "src/test/unit/**/*.test.tsx"],
     coverage: {
       provider: "v8",
       reporter: ["text", "html"],
@@ -17,10 +17,6 @@ export default defineConfig({
         "src/services/**/*.{ts,tsx}",
       ],
       exclude: [
-        "src/lib/**/*.test.{ts,tsx}",
-        "src/services/**/*.test.{ts,tsx}",
-        "src/lib/**/*.component.test.{ts,tsx}",
-        "src/services/**/*.component.test.{ts,tsx}",
         "src/test/**",
         "src/types/**",
       ],
